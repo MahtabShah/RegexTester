@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regex & Random Word Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* flex-direction: column; */
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        color: #fff;
+        min-height: 100vh;
+      }
+
+      .container {
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        width: 90%;
+        max-width: 800px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+
+      input,
+      textarea,
+      button {
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+      }
+
+      input,
+      textarea {
+        background: #fff;
+        color: #000;
+      }
+
+      button {
+        background: #4caf50;
+        color: #fff;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      button:hover {
+        background: #45a049;
+      }
+
+      pre {
+        text-align: left;
+        background: #333;
+        color: #0f0;
+        padding: 10px;
+        border-radius: 5px;
+        overflow-x: auto;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+      }
+
+      .output-container {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Random Word Generator -->
+    <div class="container">
+      <h1>Random Word Generator</h1>
+      <input
+        type="text"
+        id="start-chars"
+        placeholder="Enter start characters"
+      />
+      <input type="text" id="end-chars" placeholder="Enter end characters" />
+      <button id="generate-random-string">Generate Random String</button>
+      <textarea
+        id="generated-string"
+        rows="10"
+        placeholder="Generated string will appear here..."
+      ></textarea>
+      <h3>Extract Matches with Regex</h3>
+      <input type="text" id="regex-pattern" placeholder="Enter regex pattern" />
+      <button id="extract-matches">Extract Matches</button>
+      <pre id="matches">No matches yet...</pre>
+    </div>
+
+    <!-- Regex Generator -->
+    <div class="container">
+      <h1>Regex Generator</h1>
+      <input type="text" id="start" placeholder="Enter starting characters" />
+      <input type="text" id="end" placeholder="Enter ending characters" />
+      <textarea
+        id="pattern"
+        placeholder="Enter pattern (e.g., \\d{3}-\\d{2}-\\d{4})"
+      ></textarea>
+      <button id="generate-regex">Generate Regex</button>
+      <div class="output-container">
+        <h2>Generated Regex:</h2>
+        <pre id="output">No regex generated yet...</pre>
+      </div>
+    </div>
+
+    <script>
+      // Random Word Generator References
+      const generateRandomStringButton = document.getElementById(
+        "generate-random-string"
+      );
+      const extractMatchesButton = document.getElementById("extract-matches");
+      const startCharsInput = document.getElementById("start-chars");
+      const endCharsInput = document.getElementById("end-chars");
+      const regexPatternInput = document.getElementById("regex-pattern");
+      const generatedStringInput = document.getElementById("generated-string");
+      const matchesDisplay = document.getElementById("matches");
+
+      let generatedString = "";
+
+      // Generate Random String
+      generateRandomStringButton.addEventListener("click", () => {
+        const startChars = startCharsInput.value;
+        const endChars = endCharsInput.value;
+
+        if (startChars === "" || endChars === "") {
+          alert("Please enter both start and end characters!");
+          return;
+        }
+
+        generatedString = generateStringFromChars(startChars, endChars, 200);
+        generatedStringInput.value = generatedString;
+      });
+
+      // Extract Matches
+      extractMatchesButton.addEventListener("click", () => {
+        const regexPattern = regexPatternInput.value;
+
+        if (regexPattern === "") {
+          alert("Please enter a regex pattern!");
+          return;
+        }
+
+        try {
+          const regex = new RegExp(regexPattern, "g");
+          const matches = generatedString.match(regex);
+
+          matchesDisplay.textContent = matches
+            ? `Matches Found:\n${matches.join("\n")}`
+            : "No matches found.";
+        } catch (error) {
+          alert("Invalid Regex Pattern");
+        }
+      });
+
+      // Generate Random Words
+      function generateStringFromChars(startChars, endChars, numWords) {
+        let result = "";
+        for (let i = 0; i < numWords; i++) {
+          if (i % 2 == 0) {
+            result += generateWord(startChars, " ") + " ";
+          } else if (i % 3 == 0) {
+            result += generateWord(" ", endChars) + " ";
+          } else if (i % 7 == 0) {
+            result += generateWord(" ", " ");
+            result += generateWord(" ", " ") + " ";
+          } else {
+            result += generateWord(startChars, endChars) + " ";
+          }
+        }
+        return result.trim();
+      }
+
+      function generateWord(startChars, endChars) {
+        const wordLength = Math.floor(Math.random() * 21);
+        if (wordLength === 0) return "";
+
+        let num = Math.random() * startChars.length;
+        let mum = num;
+        if (Math.floor(num) < Math.floor(mum)) {
+          mum = 0;
+        }
+        const startChar = startChars.charAt(Math.floor(num));
+        const endChar = endChars.charAt(Math.floor(mum));
+
+        let word = startChar;
+        for (let i = 1; i < wordLength + 5 - 1; i++) {
+          word += getRandomCharacter();
+        }
+        word += endChar;
+
+        return word.trimStart();
+      }
+
+      function getRandomCharacter() {
+        const chars = "abcdefghijklmnopqrstuvwxyz";
+        return chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
+      // Regex Generator References
+      // Regex Generator References
+      const generateRegexButton = document.getElementById("generate-regex");
+      const startInput = document.getElementById("start");
+      const endInput = document.getElementById("end");
+      const regexOutput = document.getElementById("output");
+
+      generateRegexButton.addEventListener("click", () => {
+        const startValues = startInput.value.trim().split(",");
+        const endValues = endInput.value.trim().split(",");
+
+        if (startValues.length === 0 || endValues.length === 0) {
+          regexOutput.textContent = "Please provide both start and end values.";
+          return;
+        }
+
+        if (startValues.length !== endValues.length) {
+          regexOutput.textContent =
+            "The number of start and end values must match.";
+          return;
+        }
+
+        // Escape special regex characters in the inputs
+        const escapeRegex = (str) =>
+          str.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+
+        // Generate regex patterns for each pair of start and end values
+        const regexParts = startValues.map((start, index) => {
+          const escapedStart = escapeRegex(start.trim());
+          const escapedEnd = escapeRegex(endValues[index].trim());
+          return `${escapedStart}.*${escapedEnd}`;
+        });
+
+        // Combine the patterns with OR (|)
+        const regex = `^(${regexParts.join("|")})$`;
+
+        // Display the generated regex
+        regexOutput.textContent = `/${regex}/`;
+      });
+    </script>
+  </body>
+</html>
