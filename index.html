@@ -12,32 +12,49 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        /* flex-direction: column; */
-        background: linear-gradient(135deg, #4facfe, #00f2fe);
+        flex-direction: column;
+        /* background: linear-gradient(135deg, #4facfe, #00f2fe); */
+        background: rgba(0, 0, 0, 0.8);
+
         color: #fff;
-        min-height: 100vh;
       }
 
       .container {
         background: rgba(0, 0, 0, 0.8);
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+
         padding: 20px;
         border-radius: 10px;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        width: 90%;
-        max-width: 800px;
-        margin-bottom: 20px;
+        width: calc(100% - 80px);
+        max-width: 500px;
+        min-width: 100px;
+        margin: 20px;
         text-align: center;
+        display: flex;
+        /* justify-content: center; */
+        align-items: center;
+        flex-direction: column;
       }
 
       h1 {
         font-size: 24px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
       }
 
       input,
-      textarea,
+      textarea {
+        min-width: 100%;
+        max-width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+      }
+
       button {
-        width: 100%;
         margin: 10px 0;
         padding: 10px;
         font-size: 16px;
@@ -57,6 +74,7 @@
         color: #fff;
         cursor: pointer;
         transition: background 0.3s;
+        width: calc(100% + 20px);
       }
 
       button:hover {
@@ -77,6 +95,14 @@
       .output-container {
         margin-top: 20px;
       }
+
+      /* @media (min-width: 900px) {
+        body {
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: flex-start;
+        }
+      } */
     </style>
   </head>
   <body>
@@ -102,7 +128,7 @@
     </div>
 
     <!-- Regex Generator -->
-    <div class="container">
+    <!-- <div class="container">
       <h1>Regex Generator</h1>
       <input type="text" id="start" placeholder="Enter starting characters" />
       <input type="text" id="end" placeholder="Enter ending characters" />
@@ -115,7 +141,7 @@
         <h2>Generated Regex:</h2>
         <pre id="output">No regex generated yet...</pre>
       </div>
-    </div>
+    </div> -->
 
     <script>
       // Random Word Generator References
