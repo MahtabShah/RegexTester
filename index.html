@@ -122,7 +122,7 @@
         placeholder="Generated string will appear here..."
       ></textarea>
       <h3>Extract Matches with Regex</h3>
-      <input type="text" id="regex-pattern" placeholder="Enter regex pattern" />
+      <input type="text" id="regex-pattern" placeholder="Enter regex pattern eg. /[\w]+/gm" />
       <button id="extract-matches">Extract Matches</button>
       <pre id="matches">No matches yet...</pre>
     </div>
@@ -181,7 +181,7 @@
         }
 
         try {
-          const regex = new RegExp(regexPattern, "g");
+          const regex = new RegExp(regexPattern.slice(1, -2), regexPattern.charAt(regexPattern.length-1));
           const matches = generatedString.match(regex);
 
           matchesDisplay.textContent = matches
@@ -278,3 +278,4 @@
     </script>
   </body>
 </html>
+
