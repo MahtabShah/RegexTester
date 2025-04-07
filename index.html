@@ -119,47 +119,68 @@ h3 {
   }
 }
 
+      .columns {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.column {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+@media (max-width: 768px) {
+  .columns {
+    flex-direction: column;
+  }
+}
+
+
     </style>
   </head>
+
   <body>
-    <!-- Random Word Generator -->
-    <div class="container">
-      <h1>Random Word Generator</h1>
-      <div class="inp-c">
-        <input
-        type="text"
-        id="start-chars"
-        placeholder="Enter start characters"
-      />
-      <input type="text" id="end-chars" placeholder="Enter end characters" />
-      </div>
+<div class="container">
+  <h1>Random Word Generator</h1>
+  <div class="inp-c">
+    <input
+      type="text"
+      id="start-chars"
+      placeholder="Enter start characters"
+    />
+    <input type="text" id="end-chars" placeholder="Enter end characters" />
+  </div>
+
+  <div class="columns">
+    <!-- Column 1 -->
+    <div class="column">
       <button id="generate-random-string">Generate Random String</button>
       <textarea
         id="generated-string"
         rows="10"
         placeholder="Generated string will appear here..."
       ></textarea>
-      <h3>Extract Matches with Regex</h3>
-      <input type="text" id="regex-pattern" placeholder="Enter regex pattern eg. /[\w]+/gm" />
+    </div>
+
+    <!-- Column 2 -->
+    <div class="column">
+      <input
+        type="text"
+        id="regex-pattern"
+        placeholder="Enter regex pattern e.g. /[\w]+/gm"
+      />
       <button id="extract-matches">Extract Matches</button>
       <pre id="matches">No matches yet...</pre>
     </div>
+  </div>
+</div>
 
-    <!-- Regex Generator -->
-    <!-- <div class="container">
-      <h1>Regex Generator</h1>
-      <input type="text" id="start" placeholder="Enter starting characters" />
-      <input type="text" id="end" placeholder="Enter ending characters" />
-      <textarea
-        id="pattern"
-        placeholder="Enter pattern (e.g., \\d{3}-\\d{2}-\\d{4})"
-      ></textarea>
-      <button id="generate-regex">Generate Regex</button>
-      <div class="output-container">
-        <h2>Generated Regex:</h2>
-        <pre id="output">No regex generated yet...</pre>
-      </div>
-    </div> -->
 
     <script>
       // Random Word Generator References
